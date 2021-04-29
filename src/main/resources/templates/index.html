@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+这是一个界面
+</body>
+<script>
+    //第一个参数 url, 指定连接的 URL。第二个参数 protocol 是可选的，指定了可接受的子协议
+    var websocket = null;
+    if ("WebSocket" in window) {
+        websocket = new WebSocket("ws://localhost:80/webSocket");
+    } else {
+        console.log('你的浏览器不支持websocket');
+    }
+    websocket.onopen = function (event) {
+        console.log('建立websoket');
+    }
+    websocket.onerror = function () {
+        console.log('websocket发生错误');
+    }
+    websocket.onmessage = function (evt) {
+        console.log("数据已接收:" + evt.data);
+    };
+
+    websocket.onclose = function () {
+        // 关闭 websocket
+        console.log("连接已关闭...");
+    };
+
+    window.onbeforeunload = function () {
+        console.log("刷新或者关闭窗口");
+        websocket.close();
+    }
+</script>
+</html>
